@@ -1,50 +1,43 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const multer = require('multer');
+
 const port = 3000;
 const documentsRouter = require("./routes/documents");
 
-app.use(cors())
+app.use(cors());
+app.use(express.static('public'));
 app.use(express.json());
 app.use(
   express.urlencoded({
     extended: true,
   })
 );
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'public')
+  },
+  filename: (req, file, cb) => {
+      cb(null, Date.now() + '-' + file.originalname)
+  }
+});
+
+const upload = multer({storage}).array('file');
+
+app.post('/upload', (req, res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            return res.status(500).json(err)
+        }
+
+        return res.status(200).send(req.files)
+    })
+});
 
 app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
-
-app.post("/upload", function (req, res, next) {
-  try {
-    // use modules such as express-fileupload, Multer, Busboy
-
-    setTimeout(() => {
-      console.log("file uploaded");
-      res.json({ result:true, msg: "file upload" });
-    }, 3000);
-
-  } catch (err) {
-    console.error(`Error while upload file `, err.message);
-    next(err);
-  }
-})
-
-app.delete("/upload", function (req, res, next) {
-  try {
-    // use modules such as express-fileupload, Multer, Busboy
-
-    
-      console.log("file delete");
-      res.json({ result:true, msg: "file delete" });
-  
-
-  } catch (err) {
-    console.error(`Error while delete file `, err.message);
-    next(err);
-  }
-})
 
 
 
