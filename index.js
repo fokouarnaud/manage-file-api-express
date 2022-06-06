@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
 
-app.get("/upload", function (req, res, next) {
+app.post("/upload", function (req, res, next) {
   try {
     // use modules such as express-fileupload, Multer, Busboy
 
