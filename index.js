@@ -14,6 +14,8 @@ app.use(
     extended: true,
   })
 );
+
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
       cb(null, 'public')
