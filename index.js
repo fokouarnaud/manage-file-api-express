@@ -27,13 +27,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage}).array('file');
 
-app.post('/upload', (req, res) => {
+app.post('/upload', (req, res,next) => {
     upload(req, res, (err) => {
         if (err) {
-            return res.status(500).json(err)
+            return next(err);
         }
 
-        return res.status(200).send(req.files)
+        return res.send(req.files);
     })
 });
 
