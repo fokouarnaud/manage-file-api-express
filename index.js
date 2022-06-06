@@ -6,6 +6,12 @@ const multer = require('multer');
 const port = 3000;
 const documentsRouter = require("./routes/documents");
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use(cors());
 app.use(express.static('public'));
 app.use(express.json());
