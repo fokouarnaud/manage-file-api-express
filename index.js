@@ -16,6 +16,38 @@ app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
 
+app.get("/upload", function (req, res, next) {
+  try {
+    // use modules such as express-fileupload, Multer, Busboy
+
+    setTimeout(() => {
+      console.log("file uploaded");
+      res.json({ result:true, msg: "file upload" });
+    }, 3000);
+
+  } catch (err) {
+    console.error(`Error while upload file `, err.message);
+    next(err);
+  }
+})
+
+app.delete("/upload", function (req, res, next) {
+  try {
+    // use modules such as express-fileupload, Multer, Busboy
+
+    
+      console.log("file delete");
+      res.json({ result:true, msg: "file delete" });
+  
+
+  } catch (err) {
+    console.error(`Error while delete file `, err.message);
+    next(err);
+  }
+})
+
+
+
 app.use("/documents", documentsRouter);
 
 /* Error handler middleware */
@@ -27,6 +59,6 @@ app.use((err, req, res, next) => {
   return;
 });
 
-app.listen( process.env.PORT || port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
