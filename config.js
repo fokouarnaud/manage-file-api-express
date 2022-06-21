@@ -1,5 +1,5 @@
 const config = {
-  db: {
+  db_offline: {
     /* don't expose password or any sensitive info, done only for demo */
     host: "localhost",
     user: "root",
@@ -7,12 +7,12 @@ const config = {
     database: "api_doc_db",
     connectionLimit : 10,
   },
-  dbo: {
+  db: {
     /* don't expose password or any sensitive info, done only for demo */
-    host: "us-cdbr-east-05.cleardb.net",
-    user: "b7baa28aa75f16",
-    password: "8cbff95e",
-    database: "heroku_80cb0a389fdca38",
+    host: process.env.RDB_HOST,
+    user: process.env.RDB_USER,
+    password: process.env.RDB_PASSWORD,
+    database: process.env.RDB_database,
     connectionLimit : 10,
   },
   listPerPage: 10,
