@@ -1,10 +1,36 @@
+const Joi = require('joi');
 const express = require("express");
 const router = express.Router();
 const documents = require("../services/documents");
+const multer = require('multer');
+const { s3Uploadv2 } = require("../s3Service");
+const {validateRegister, validateUpdate} = require('../validators');
+
+
+
+const storage = multer.memoryStorage();
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === "application/pdf") {
+    cb(null, true);
+  } else {
+    cb(new multer.MulterError("LIMIT_UNEXPECTED_FILE"), false);
+  }
+};
+
+
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 1000000000, files: 1 },
+}).array("file");
+
+
 
 /* GET documents. */
 router.get("/", async function (req, res, next) {
   try {
+    
     res.json(await documents.getMultiple(req.query.page,req.query.matricule));
   } catch (err) {
     console.error(`Error while getting documents `, err.message);
@@ -26,7 +52,44 @@ router.get("/:id", async function (req, res, next) {
 /* POST document */
 router.post("/", async function (req, res, next) {
   try {
-    res.json(await documents.create(req.body));
+  
+    upload(req, res, async function (err) {
+
+      const { error } = validateRegister(req.body);
+      if (error) return next(error.details[0]);
+
+      if (err instanceof multer.MulterError) {
+        if (err.code === "LIMIT_FILE_SIZE") {
+          return res.status(400).json({
+            message: "file is too large",
+          });
+        }
+
+        if (err.code === "LIMIT_FILE_COUNT") {
+          return res.status(400).json({
+            message: "File limit reached",
+          });
+        }
+
+        if (err.code === "LIMIT_UNEXPECTED_FILE") {
+          return res.status(400).json({
+            message: "File must be an pdf",
+          });
+        }
+      }
+     
+      // upload file on remote storage
+      const results = await s3Uploadv2(req.files);
+
+      //save result info to database
+      // res.json(await documents.create(req.body));
+
+      return res.json({ status: "success", results });
+
+    });
+
+
+
   } catch (err) {
     console.error(`Error while creating document`, err.message);
     next(err);
