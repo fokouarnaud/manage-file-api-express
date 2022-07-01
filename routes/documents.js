@@ -80,12 +80,10 @@ router.post("/", async function (req, res, next) {
      
       // upload file on remote storage
       const results = await s3Uploadv2(req.files);
-
+      const document={...req.body,source_doc:results.Key,annee_soutenance: "2022-02-07"};
       //save result info to database
-      // res.json(await documents.create(req.body));
-
-      return res.json({ status: "success", results });
-
+      res.json(await documents.create(document));
+      
     });
 
 

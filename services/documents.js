@@ -42,14 +42,15 @@ async function create(document) {
     (nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
       membre_jury_soutenance, directeur_soutenance, source_doc, description_doc, annee_soutenance) 
     VALUES 
-    ("${document.nom_etudiant}", "${document.matricule_etudiant}", 
-    "${document.departement_etudiant}",
-     "${document.titre_doc}",
-     "${document.mot_cle_doc}",
-     "${document.membre_jury_soutenance}",
-     "${document.directeur_soutenance}",
+    ("${document.nom}",
+     "${document.matricule}", 
+    "${document.departement}",
+     "${document.titre_memoire}",
+     "${document.mot_cle}",
+     "${document.membre_jury}",
+     "${document.directeur_memoire}",
     "${document.source_doc}",
-     "${document.description_doc}",
+     "${document.description}",
       "${document.annee_soutenance}")`
   );
 
