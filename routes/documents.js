@@ -42,7 +42,10 @@ router.get("/", async function (req, res, next) {
 /* GET document. */
 router.get("/:id", async function (req, res, next) {
   try {
-    res.json(await documents.getOne(req.params.id));
+    const baser_url="https://aws-s3-save.s3.amazonaws.com"
+    const tempResult=await documents.getOne(req.params.id);
+    const finalResult={...tempResult,source_doc:`${baser_url}/${tempResult.source_doc}`}
+    res.json(finalResult);
   } catch (err) {
     console.error(`Error while getting document `, err.message);
     next(err);
@@ -80,7 +83,9 @@ router.post("/", async function (req, res, next) {
      
       // upload file on remote storage
       const results = await s3Uploadv2(req.files);
-      const document={...req.body,source_doc:results.Key,annee_soutenance: "2022-02-07"};
+      console.log(results);
+      console.log(results[0].Key);
+      const document={...req.body,source_doc:results[0].Key,annee_soutenance: "2022-02-07"};
       //save result info to database
       res.json(await documents.create(document));
       
