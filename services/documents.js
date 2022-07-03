@@ -2,7 +2,7 @@ const db = require("./db");
 const helper = require("../helper");
 const config = require("../config");
 
-async function getMultiple(page = 1,matricule="") {
+async function getMultiple(page = 1,matricule="",baser_url) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
@@ -10,7 +10,7 @@ async function getMultiple(page = 1,matricule="") {
     FROM document WHERE matricule_etudiant LIKE '${matricule}%' LIMIT ${offset},${config.listPerPage}`
   );
   const data = helper.emptyOrRows(rows);
-  const meta = { page };
+  const meta = { page ,baser_url};
 
   return {
     data,
@@ -20,7 +20,7 @@ async function getMultiple(page = 1,matricule="") {
 
 
 
-async function getOne(id) {
+async function getOne(id,baser_url) {
  
   const rows = await db.query(
     `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
@@ -28,7 +28,7 @@ async function getOne(id) {
     FROM document WHERE id=${id}`
   );
   const data = helper.emptyOrRows(rows);
-  const meta = { id };
+  const meta = { id,baser_url };
 
   return {
     data,

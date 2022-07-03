@@ -5,6 +5,7 @@ const documents = require("../services/documents");
 const multer = require('multer');
 const { s3Uploadv2 } = require("../s3Service");
 const {validateRegister, validateUpdate} = require('../validators');
+const baser_url="https://aws-s3-save.s3.amazonaws.com";
 
 
 
@@ -31,7 +32,7 @@ const upload = multer({
 router.get("/", async function (req, res, next) {
   try {
     
-    res.json(await documents.getMultiple(req.query.page,req.query.matricule));
+    res.json(await documents.getMultiple(req.query.page,req.query.matricule,baser_url));
   } catch (err) {
     console.error(`Error while getting documents `, err.message);
     next(err);
@@ -42,10 +43,8 @@ router.get("/", async function (req, res, next) {
 /* GET document. */
 router.get("/:id", async function (req, res, next) {
   try {
-    const baser_url="https://aws-s3-save.s3.amazonaws.com"
-    const tempResult=await documents.getOne(req.params.id);
-    const finalResult={...tempResult,source_doc:`${baser_url}/${tempResult.source_doc}`}
-    res.json(finalResult);
+  
+    res.json(await documents.getOne(req.params.id,baser_url));
   } catch (err) {
     console.error(`Error while getting document `, err.message);
     next(err);
