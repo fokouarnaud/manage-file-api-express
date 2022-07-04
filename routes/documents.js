@@ -32,7 +32,7 @@ const upload = multer({
 router.get("/", async function (req, res, next) {
   try {
     
-    res.json(await documents.getMultiple(req.query.page,req.query.matricule,baser_url));
+    res.json(await documents.getMultiple(req.query.page,req.query.limit,req.query.matricule,baser_url));
   } catch (err) {
     console.error(`Error while getting documents `, err.message);
     next(err);
