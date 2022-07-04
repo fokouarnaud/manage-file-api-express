@@ -2,8 +2,14 @@ const db = require("./db");
 const helper = require("../helper");
 const config = require("../config");
 
-async function getMultiple(page = 1,limit=config.listPerPage,matricule="",baser_url) {
+async function getMultiple(page = 1, limit = config.listPerPage, matricule = "", baser_url) {
   //const offset = helper.getOffset(page, config.listPerPage);
+  const rowsAll = await db.query(
+    `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
+    membre_jury_soutenance, directeur_soutenance, source_doc, description_doc, annee_soutenance 
+    FROM document WHERE matricule_etudiant LIKE '${matricule}%'`
+  );
+  const total_count = helper.emptyOrRows(rowsAll).length;
   const offset = helper.getOffset(page, limit);
   const rows = await db.query(
     `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
@@ -11,25 +17,32 @@ async function getMultiple(page = 1,limit=config.listPerPage,matricule="",baser_
     FROM document WHERE matricule_etudiant LIKE '${matricule}%' LIMIT ${offset},${limit}`
   );
   const data = helper.emptyOrRows(rows);
-  const meta = { page ,limit,baser_url};
+  const page_count = data.length;
+  const meta = {
+    page,
+    limit,
+    total_count,
+    page_count,
+    baser_url
+  };
 
   return {
     data,
-    meta,
+    meta
   };
 }
 
 
 
-async function getOne(id,baser_url) {
- 
+async function getOne(id, baser_url) {
+
   const rows = await db.query(
     `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
     membre_jury_soutenance, directeur_soutenance, source_doc, description_doc, annee_soutenance 
     FROM document WHERE id=${id}`
   );
   const data = helper.emptyOrRows(rows);
-  const meta = { id,baser_url };
+  const meta = { id, baser_url };
 
   return {
     data,
