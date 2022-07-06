@@ -2,19 +2,32 @@ const db = require("./db");
 const helper = require("../helper");
 const config = require("../config");
 
-async function getMultiple(page = 1, limit = config.listPerPage, matricule = "", baser_url) {
+async function getMultiple(page = 1, 
+  limit = config.listPerPage,
+   matricule = "",
+   departement="",
+   type_doc="",
+   annee="",
+   baser_url) {
   //const offset = helper.getOffset(page, config.listPerPage);
   const rowsAll = await db.query(
     `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
-    membre_jury_soutenance, directeur_soutenance, source_doc, description_doc, annee_soutenance 
-    FROM document WHERE matricule_etudiant LIKE '${matricule}%'`
+    membre_jury_soutenance, directeur_soutenance, source_doc,type_doc, description_doc, annee_soutenance 
+    FROM document WHERE matricule_etudiant LIKE '${matricule}%' 
+    AND departement_etudiant LIKE '${departement}%'
+    AND type_doc LIKE '${type_doc}%'
+    AND annee_soutenance LIKE '${annee}%'`
   );
   const total_count = helper.emptyOrRows(rowsAll).length;
   const offset = helper.getOffset(page, limit);
   const rows = await db.query(
     `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
-    membre_jury_soutenance, directeur_soutenance, source_doc, description_doc, annee_soutenance 
-    FROM document WHERE matricule_etudiant LIKE '${matricule}%' LIMIT ${offset},${limit}`
+    membre_jury_soutenance, directeur_soutenance, source_doc,type_doc, description_doc, annee_soutenance 
+    FROM document WHERE matricule_etudiant LIKE '${matricule}%' 
+    AND departement_etudiant LIKE '${departement}%'
+    AND type_doc LIKE '${type_doc}%'
+    AND annee_soutenance LIKE '${annee}%'
+    LIMIT ${offset},${limit}`
   );
   const data = helper.emptyOrRows(rows);
   const page_count = data.length;
@@ -38,7 +51,7 @@ async function getOne(id, baser_url) {
 
   const rows = await db.query(
     `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
-    membre_jury_soutenance, directeur_soutenance, source_doc, description_doc, annee_soutenance 
+    membre_jury_soutenance, directeur_soutenance, source_doc,type_doc, description_doc, annee_soutenance 
     FROM document WHERE id=${id}`
   );
   const data = helper.emptyOrRows(rows);
@@ -54,7 +67,7 @@ async function create(document) {
   const result = await db.query(
     `INSERT INTO document 
     (nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
-      membre_jury_soutenance, directeur_soutenance, source_doc, description_doc, annee_soutenance) 
+      membre_jury_soutenance, directeur_soutenance, source_doc,type_doc, description_doc, annee_soutenance) 
     VALUES 
     ("${document.nom}",
      "${document.matricule}", 
@@ -64,6 +77,7 @@ async function create(document) {
      "${document.membre_jury}",
      "${document.directeur_memoire}",
     "${document.source_doc}",
+    "${document.type_doc}",
      "${document.description}",
       "${document.annee_soutenance}")`
   );
@@ -88,6 +102,7 @@ async function update(id, document) {
     membre_jury_soutenance="${document.membre_jury_soutenance}", 
     directeur_soutenance="${document.directeur_soutenance}",
     source_doc="${document.source_doc}",
+    type_doc="${document.type_doc}",
     description_doc="${document.description_doc}",
     annee_soutenance="${document.annee_soutenance}"
     WHERE id=${id}`
