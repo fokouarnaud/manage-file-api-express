@@ -35,6 +35,7 @@ router.get("/", async function (req, res, next) {
     res.json(await documents.getMultiple(req.query.page,
       req.query.limit,
       req.query.matricule,
+      req.query.nom,
       req.query.departement,
       req.query.type_doc,
       req.query.annee,

@@ -5,6 +5,7 @@ const config = require("../config");
 async function getMultiple(page = 1, 
   limit = config.listPerPage,
    matricule = "",
+   nom="",
    departement="",
    type_doc="",
    annee="",
@@ -14,6 +15,7 @@ async function getMultiple(page = 1,
     `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
     membre_jury_soutenance, directeur_soutenance, source_doc,type_doc, description_doc, annee_soutenance 
     FROM document WHERE matricule_etudiant LIKE '${matricule}%' 
+    AND nom_etudiant LIKE '${nom}%'
     AND departement_etudiant LIKE '${departement}%'
     AND type_doc LIKE '${type_doc}%'
     AND annee_soutenance LIKE '${annee}%'`
@@ -24,6 +26,7 @@ async function getMultiple(page = 1,
     `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
     membre_jury_soutenance, directeur_soutenance, source_doc,type_doc, description_doc, annee_soutenance 
     FROM document WHERE matricule_etudiant LIKE '${matricule}%' 
+    AND nom_etudiant LIKE '${nom}%'
     AND departement_etudiant LIKE '${departement}%'
     AND type_doc LIKE '${type_doc}%'
     AND annee_soutenance LIKE '${annee}%'
