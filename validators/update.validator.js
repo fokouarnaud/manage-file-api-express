@@ -12,8 +12,15 @@ const updateSchema = Joi.object({
 });
 
 function validateUpdate(body) {
-  
-    return Joi.validate(body, updateSchema);
+
+  const options = {
+    abortEarly: false, // include all errors
+    allowUnknown: true, // ignore unknown props
+    stripUnknown: true // remove unknown props
+  };
+
+ 
+  return updateSchema.validate(body, options);
 }
 
 module.exports = validateUpdate;
