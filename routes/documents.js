@@ -138,7 +138,7 @@ router.put("/:id", async function (req, res, next) {
       }
       const document = { ...req.body, source_doc: results ? results[0]?.Key : req.body.source_doc, annee_soutenance: "2022-02-07" };
       //update result info to database
-      res.json(await documents.update(req.params.id, req.body));
+      res.json(await documents.update(req.params.id, document));
 
 
     });
