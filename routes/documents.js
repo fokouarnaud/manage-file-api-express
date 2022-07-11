@@ -4,8 +4,8 @@ const router = express.Router();
 const documents = require("../services/documents");
 const multer = require('multer');
 const { s3Uploadv2 } = require("../s3Service");
-const {validateRegister, validateUpdate} = require('../validators');
-const baser_url="https://aws-s3-save.s3.amazonaws.com";
+const { validateRegister, validateUpdate } = require('../validators');
+const baser_url = "https://aws-s3-save.s3.amazonaws.com";
 
 
 
@@ -31,7 +31,7 @@ const upload = multer({
 /* GET documents. */
 router.get("/", async function (req, res, next) {
   try {
-    
+
     res.json(await documents.getMultiple(req.query.page,
       req.query.limit,
       req.query.matricule,
@@ -50,8 +50,8 @@ router.get("/", async function (req, res, next) {
 /* GET document. */
 router.get("/:id", async function (req, res, next) {
   try {
-  
-    res.json(await documents.getOne(req.params.id,baser_url));
+
+    res.json(await documents.getOne(req.params.id, baser_url));
   } catch (err) {
     console.error(`Error while getting document `, err.message);
     next(err);
@@ -61,7 +61,7 @@ router.get("/:id", async function (req, res, next) {
 /* POST document */
 router.post("/", async function (req, res, next) {
   try {
-  
+
     upload(req, res, async function (err) {
 
       const { error } = validateRegister(req.body);
@@ -86,13 +86,13 @@ router.post("/", async function (req, res, next) {
           });
         }
       }
-     
+
       // upload file on remote storage
       const results = await s3Uploadv2(req.files);
-      const document={...req.body,source_doc:results[0]?.Key,annee_soutenance: "2022-02-07"};
+      const document = { ...req.body, source_doc: results[0]?.Key, annee_soutenance: "2022-02-07" };
       //save result info to database
       res.json(await documents.create(document));
-      
+
     });
 
 
@@ -106,6 +106,42 @@ router.post("/", async function (req, res, next) {
 /* PUT document */
 router.put("/:id", async function (req, res, next) {
   try {
+    upload(req, res, async function (err) {
+
+      const { error } = validateUpdate(req.body);
+      if (error) return next(error.details[0]);
+      let results = null;
+      if (req.body.is_file_delete) {
+
+        if (err instanceof multer.MulterError) {
+          if (err.code === "LIMIT_FILE_SIZE") {
+            return res.status(400).json({
+              message: "file is too large",
+            });
+          }
+
+          if (err.code === "LIMIT_FILE_COUNT") {
+            return res.status(400).json({
+              message: "File limit reached",
+            });
+          }
+
+          if (err.code === "LIMIT_UNEXPECTED_FILE") {
+            return res.status(400).json({
+              message: "File must be an pdf",
+            });
+          }
+        }
+
+        // upload file on remote storage
+        results = await s3Uploadv2(req.files);
+      }
+      const document = { ...req.body, source_doc: results ? results[0]?.Key : req.body.source_doc, annee_soutenance: "2022-02-07" };
+      //save result info to database
+      res.json(await documents.create(document));
+
+    });
+
     res.json(await documents.update(req.params.id, req.body));
   } catch (err) {
     console.error(`Error while updating document`, err.message);
@@ -116,6 +152,7 @@ router.put("/:id", async function (req, res, next) {
 /* DELETE document */
 router.delete("/:id", async function (req, res, next) {
   try {
+
     res.json(await documents.remove(req.params.id));
   } catch (err) {
     console.error(`Error while deleting document`, err.message);
