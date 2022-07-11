@@ -97,16 +97,16 @@ async function create(document) {
 async function update(id, document) {
   const result = await db.query(
     `UPDATE document 
-    SET nom_etudiant="${document.nom_etudiant}",
-    matricule_etudiant="${document.matricule_etudiant}",
-    departement_etudiant="${document.departement_etudiant}",
-    titre_doc="${document.titre_doc}", 
-    mot_cle_doc="${document.mot_cle_doc}",
-    membre_jury_soutenance="${document.membre_jury_soutenance}", 
-    directeur_soutenance="${document.directeur_soutenance}",
+    SET nom_etudiant="${document.nom}",
+    matricule_etudiant="${document.matricule}",
+    departement_etudiant="${document.departement}",
+    titre_doc="${document.titre_memoire}", 
+    mot_cle_doc="${document.mot_cle}",
+    membre_jury_soutenance="${document.membre_jury}", 
+    directeur_soutenance="${document.directeur_memoire}",
     source_doc="${document.source_doc}",
     type_doc="${document.type_doc}",
-    description_doc="${document.description_doc}",
+    description_doc="${document.description}",
     annee_soutenance="${document.annee_soutenance}"
     WHERE id=${id}`
   );
