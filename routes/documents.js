@@ -136,6 +136,7 @@ router.put("/:id", async function (req, res, next) {
         // upload file on remote storage
         results = await s3Uploadv2(req.files);
       }
+      console.log(req.body);
       const document = { ...req.body, source_doc: results ? results[0]?.Key : req.body.source_doc };
       //update result info to database
       res.json(await documents.update(req.params.id, document));
