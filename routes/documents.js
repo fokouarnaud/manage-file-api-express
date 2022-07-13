@@ -110,7 +110,7 @@ router.put("/:id", async function (req, res, next) {
 
       const { error } = validateUpdate(req.body);
       if (error) return next(error.details[0]);
-      let results = null;
+      let results = [];
       if (req.body.is_file_delete) {
 
         if (err instanceof multer.MulterError) {
@@ -136,8 +136,10 @@ router.put("/:id", async function (req, res, next) {
         // upload file on remote storage
         results = await s3Uploadv2(req.files);
       }
-      console.log(req.body);
-      const document = { ...req.body, source_doc: results ? results[0]?.Key : req.body.source_doc };
+      console.log(req.body.source_doc);
+      console.log(results);
+      console.log(results.length);
+      const document = { ...req.body, source_doc: results.length>0 ? results[0]?.Key : req.body.source_doc };
       //update result info to database
       res.json(await documents.update(req.params.id, document));
 
