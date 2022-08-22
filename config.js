@@ -16,6 +16,7 @@ const config = {
     connectionLimit : 10,
   },
   listPerPage: 10,
+  baseUrl:process.env.AWS_BASE_URL,
 };
 
 module.exports = config;

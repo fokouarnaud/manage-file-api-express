@@ -2,10 +2,11 @@ const Joi = require('joi');
 const express = require("express");
 const router = express.Router();
 const documents = require("../services/documents");
+const config = require("../config");
 const multer = require('multer');
 const { s3Uploadv2 } = require("../s3Service");
 const { validateRegister, validateUpdate } = require('../validators');
-const baser_url = "https://aws-s3-save.s3.amazonaws.com";
+const baser_url = config.baseUrl;
 
 
 
