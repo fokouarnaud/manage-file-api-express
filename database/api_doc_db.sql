@@ -6,7 +6,7 @@
 -- Generation Time: Jul 06, 2022 at 11:29 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.28
-use heroku_80cb0a389fdca38;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
