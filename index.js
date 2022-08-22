@@ -39,7 +39,9 @@ app.use((err, req, res, next) => {
   res.status(statusCode).json({ message: err.message });
 });
 
-app.listen(process.env.PORT || port, () => {
+const server = app.listen(process.env.PORT || port, () => {
   // eslint-disable-next-line no-console
   console.log(`Example app listening at http://localhost:${port}`);
 });
+
+module.exports = server;
