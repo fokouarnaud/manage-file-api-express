@@ -1,11 +1,11 @@
 const config = {
   db_offline: {
     /* don't expose password or any sensitive info, done only for demo */
-    host: "localhost",
-    user: "root",
-    password: "fokou2014",
-    database: "api_doc_db",
-    connectionLimit : 10,
+    host: 'localhost',
+    user: 'root',
+    password: 'fokou2014',
+    database: 'api_doc_db',
+    connectionLimit: 10
   },
   db: {
     /* don't expose password or any sensitive info, done only for demo */
@@ -13,10 +13,10 @@ const config = {
     user: process.env.RDB_USER,
     password: process.env.RDB_PASSWORD,
     database: process.env.RDB_database,
-    connectionLimit : 10,
+    connectionLimit: 10
   },
   listPerPage: 10,
-  baseUrl:process.env.AWS_BASE_URL,
+  baseUrl: process.env.AWS_BASE_URL
 };
 
 module.exports = config;

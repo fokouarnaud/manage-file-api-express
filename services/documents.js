@@ -1,26 +1,28 @@
-const db = require("./db");
-const helper = require("../helper");
-const config = require("../config");
+const db = require('./db');
+const helper = require('../helper');
+const config = require('../config');
 
-async function getMultiple(page = 1, 
+async function getMultiple(
+  page = 1,
   limit = config.listPerPage,
-   matricule = "",
-   nom="",
-   departement="",
-   type_doc="",
-   annee="",
-   baser_url) {
-  //const offset = helper.getOffset(page, config.listPerPage);
+  matricule = '',
+  nom = '',
+  departement = '',
+  typeDoc = '',
+  annee = '',
+  baseUrl = ''
+) {
+  // const offset = helper.getOffset(page, config.listPerPage);
   const rowsAll = await db.query(
     `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
     membre_jury_soutenance, directeur_soutenance, source_doc,type_doc, description_doc, annee_soutenance 
     FROM document WHERE matricule_etudiant LIKE '${matricule}%' 
     AND nom_etudiant LIKE '${nom}%'
     AND departement_etudiant LIKE '${departement}%'
-    AND type_doc LIKE '${type_doc}%'
+    AND type_doc LIKE '${typeDoc}%'
     AND annee_soutenance LIKE '${annee}%'`
   );
-  const total_count = helper.emptyOrRows(rowsAll).length;
+  const totalCount = helper.emptyOrRows(rowsAll).length;
   const offset = helper.getOffset(page, limit);
   const rows = await db.query(
     `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
@@ -28,18 +30,18 @@ async function getMultiple(page = 1,
     FROM document WHERE matricule_etudiant LIKE '${matricule}%' 
     AND nom_etudiant LIKE '${nom}%'
     AND departement_etudiant LIKE '${departement}%'
-    AND type_doc LIKE '${type_doc}%'
+    AND type_doc LIKE '${typeDoc}%'
     AND annee_soutenance LIKE '${annee}%'
     LIMIT ${offset},${limit}`
   );
   const data = helper.emptyOrRows(rows);
-  const page_count = data.length;
+  const pageCount = data.length;
   const meta = {
     page,
     limit,
-    total_count,
-    page_count,
-    baser_url
+    totalCount,
+    pageCount,
+    baseUrl
   };
 
   return {
@@ -48,21 +50,18 @@ async function getMultiple(page = 1,
   };
 }
 
-
-
-async function getOne(id, baser_url) {
-
+async function getOne(id, baseUrl) {
   const rows = await db.query(
     `SELECT id, nom_etudiant, matricule_etudiant, departement_etudiant, titre_doc, mot_cle_doc,
     membre_jury_soutenance, directeur_soutenance, source_doc,type_doc, description_doc, annee_soutenance 
     FROM document WHERE id=${id}`
   );
   const data = helper.emptyOrRows(rows);
-  const meta = { id, baser_url };
+  const meta = { id, baseUrl };
 
   return {
     data,
-    meta,
+    meta
   };
 }
 
@@ -85,10 +84,10 @@ async function create(document) {
       "${document.annee_soutenance}")`
   );
 
-  let message = "Error in creating document";
+  let message = 'Error in creating document';
 
   if (result.affectedRows) {
-    message = "Document created successfully";
+    message = 'Document created successfully';
   }
 
   return { message };
@@ -111,10 +110,10 @@ async function update(id, document) {
     WHERE id=${id}`
   );
 
-  let message = "Error in updating document";
+  let message = 'Error in updating document';
 
   if (result.affectedRows) {
-    message = "Document updated successfully";
+    message = 'Document updated successfully';
   }
 
   return { message };
@@ -125,10 +124,10 @@ async function remove(id) {
     `DELETE FROM document WHERE id=${id}`
   );
 
-  let message = "Error in deleting document";
+  let message = 'Error in deleting document';
 
   if (result.affectedRows) {
-    message = "Document deleted successfully";
+    message = 'Document deleted successfully';
   }
 
   return { message };
@@ -139,5 +138,5 @@ module.exports = {
   create,
   update,
   remove,
-  getOne,
+  getOne
 };

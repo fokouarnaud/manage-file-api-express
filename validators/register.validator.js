@@ -13,14 +13,12 @@ const registerSchema = Joi.object({
 });
 
 function validateRegister(body) {
-
   const options = {
     abortEarly: false, // include all errors
     allowUnknown: true, // ignore unknown props
     stripUnknown: true // remove unknown props
   };
 
- 
   return registerSchema.validate(body, options);
 }
 

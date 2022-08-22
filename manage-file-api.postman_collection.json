@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "de5f6e8c-2ee9-49b3-9905-b30dff6f5a92",
+		"name": "manage-file-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4238742"
+	},
+	"item": [
+		{
+			"name": "/documents",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"value contains data array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.be.an('array')",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/documents",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"documents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/documents/3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"value contains data array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.be.an('array')",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/documents/3",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"documents",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/documents/54",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": [],
+							"disabled": true
+						},
+						{
+							"key": "nom",
+							"value": "Sabahi",
+							"type": "text"
+						},
+						{
+							"key": "matricule",
+							"value": "13V415",
+							"type": "text"
+						},
+						{
+							"key": "departement",
+							"value": "Psychopedagogie",
+							"type": "text"
+						},
+						{
+							"key": "titre_memoire",
+							"value": "Conception des jeux sérieux éducatifs : comment concevoir une expérience optimale d’apprentissage?",
+							"type": "text"
+						},
+						{
+							"key": "mot_cle",
+							"value": "Jeux serieux, design pedagogique",
+							"type": "text"
+						},
+						{
+							"key": "membre_jury",
+							"value": "Viens Jacques",
+							"type": "text"
+						},
+						{
+							"key": "directeur_memoire",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "source_doc",
+							"value": "uploads/a0ae711c-1669-4695-ba89-22d432e6df03-soft_quality.pd",
+							"type": "text"
+						},
+						{
+							"key": "type_doc",
+							"value": "memoire",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Les jeux sérieux s’inscrivent dans un courant qui cherche à explorer l’utilisation des jeux numériques dans des contextes où la finalité première dépasse le simple divertissement. Cette utilisation dans le champ éducatif est justifiée par la capacité de ces jeux à avoir des impacts positifs liés à l’apprentissage sur les plans cognitif, affectif et social. Les études empiriques, conduites pour vérifier les bénéfices présumés de ces jeux, tendent à s'accorder pour confirmer leur pertinence et efficacité. Cependant, il en ressort que ces bénéfices dépendent de la qualité de leur conception et d'intégration dans des dispositifs de formation. Or, les approches et théories existantes à cet effet sont à un stade précoce de construction et sont loin d’être consensuelles. Plus spécifiquement, ces approches présentent des limites en ce qui concerne leurs fondements théoriques, l’absence de démarches de conception détaillées et la difficulté d’intégrer, d’une façon équilibrée, les éléments favorisant la motivation et ceux favorisant l’apprentissage. Dans ce contexte, la présente recherche vise à remédier à ces limites en proposant un modèle de design des jeux sérieux qui soutient la conception et le développement de ces jeux pour une finalité pédagogique. À cet effet, nous avons mis en œuvre une démarche méthodologique basée sur l’approche de recherche orientée par la conception (Design-based research), en vue de répondre à la question de recherche suivante : comment concevoir des jeux sérieux efficaces pédagogiquement et motivants ? Ladite approche a consisté, conformément au modèle de Reeves (2006), en quatre phases : la définition d’un problème pratique, le développement d’une solution à partir des principes de design existants, des cycles itératifs de tests et d’affinement de la solution et la production de nouveaux principes de design généralisables à d’autres contextes. Elle a permis l’élaboration d’une démarche globale, cohérente et intégrée de design des jeux sérieux. Le cas échéant, la démarche proposée porte sur un modèle théorique de l’expérience optimale d’apprentissage par jeux sérieux, des principes de design qui devraient guider le processus de design de ces jeux, une méthodologie détaillée pour conduire ce processus, ainsi que des outils d’aide au design qui définissent pour chacune des étapes les paramètres pédagogiques, ludiques et techniques à prendre en considération. Les implications du modèle proposé sont multiples. Il contribue au comblement des lacunes de connaissances relatives à l’utilisation et le design des jeux sérieux. Plus spécifiquement, il décrit l’expérience d’apprentissage par ces jeux et détermine les caractéristiques et les conditions d’émergence de cette expérience.",
+							"type": "text"
+						},
+						{
+							"key": "annee_soutenance",
+							"value": "2019",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/documents/54",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"documents",
+						"54"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/documents/54",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/documents/54",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"documents",
+						"54"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/documents",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/fokou/Desktop/send/soft_quality.pdf"
+						},
+						{
+							"key": "nom",
+							"value": "Sabahi",
+							"type": "text"
+						},
+						{
+							"key": "matricule",
+							"value": "13V415",
+							"type": "text"
+						},
+						{
+							"key": "departement",
+							"value": "Psychopedagogie",
+							"type": "text"
+						},
+						{
+							"key": "titre_memoire",
+							"value": "Conception des jeux sérieux éducatifs : comment concevoir une expérience optimale d’apprentissage?",
+							"type": "text"
+						},
+						{
+							"key": "mot_cle",
+							"value": "Jeux serieux, design pedagogique",
+							"type": "text"
+						},
+						{
+							"key": "membre_jury",
+							"value": "Viens Jacques",
+							"type": "text"
+						},
+						{
+							"key": "directeur_memoire",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "source_doc",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "type_doc",
+							"value": "memoire",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Les jeux sérieux s’inscrivent dans un courant qui cherche à explorer l’utilisation des jeux numériques dans des contextes où la finalité première dépasse le simple divertissement. Cette utilisation dans le champ éducatif est justifiée par la capacité de ces jeux à avoir des impacts positifs liés à l’apprentissage sur les plans cognitif, affectif et social. Les études empiriques, conduites pour vérifier les bénéfices présumés de ces jeux, tendent à s'accorder pour confirmer leur pertinence et efficacité. Cependant, il en ressort que ces bénéfices dépendent de la qualité de leur conception et d'intégration dans des dispositifs de formation. Or, les approches et théories existantes à cet effet sont à un stade précoce de construction et sont loin d’être consensuelles. Plus spécifiquement, ces approches présentent des limites en ce qui concerne leurs fondements théoriques, l’absence de démarches de conception détaillées et la difficulté d’intégrer, d’une façon équilibrée, les éléments favorisant la motivation et ceux favorisant l’apprentissage. Dans ce contexte, la présente recherche vise à remédier à ces limites en proposant un modèle de design des jeux sérieux qui soutient la conception et le développement de ces jeux pour une finalité pédagogique. À cet effet, nous avons mis en œuvre une démarche méthodologique basée sur l’approche de recherche orientée par la conception (Design-based research), en vue de répondre à la question de recherche suivante : comment concevoir des jeux sérieux efficaces pédagogiquement et motivants ? Ladite approche a consisté, conformément au modèle de Reeves (2006), en quatre phases : la définition d’un problème pratique, le développement d’une solution à partir des principes de design existants, des cycles itératifs de tests et d’affinement de la solution et la production de nouveaux principes de design généralisables à d’autres contextes. Elle a permis l’élaboration d’une démarche globale, cohérente et intégrée de design des jeux sérieux. Le cas échéant, la démarche proposée porte sur un modèle théorique de l’expérience optimale d’apprentissage par jeux sérieux, des principes de design qui devraient guider le processus de design de ces jeux, une méthodologie détaillée pour conduire ce processus, ainsi que des outils d’aide au design qui définissent pour chacune des étapes les paramètres pédagogiques, ludiques et techniques à prendre en considération. Les implications du modèle proposé sont multiples. Il contribue au comblement des lacunes de connaissances relatives à l’utilisation et le design des jeux sérieux. Plus spécifiquement, il décrit l’expérience d’apprentissage par ces jeux et détermine les caractéristiques et les conditions d’émergence de cette expérience.",
+							"type": "text"
+						},
+						{
+							"key": "annee_soutenance",
+							"value": "2021",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/documents",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"documents"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
