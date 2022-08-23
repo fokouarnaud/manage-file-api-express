@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const createError = require('http-errors');
 const documentsRouter = require('./routes/documents');
 
 const app = express();
@@ -33,10 +34,18 @@ app.get('/', (req, res) => {
 app.use('/documents', documentsRouter);
 
 /* Error handler middleware */
+app.use((req, res, next) => {
+  next(createError(404, 'Not found'));
+});
+
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
-  res.status(statusCode).json({ message: err.message });
+  res.status(statusCode).json({
+    success: false,
+    error: statusCode,
+    message: err.message
+  });
 });
 
 const server = app.listen(process.env.PORT || port, () => {

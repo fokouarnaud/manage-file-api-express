@@ -86,11 +86,10 @@ router.post('/', async (req, res, next) => {
           });
         }
       }
-      console.log(req.body);
-      console.log(req.files);
       // upload file on remote storage
       const results = await s3Uploadv2(req.files);
-      const document = { ...req.body, source_doc: results[0].Key };
+      const srcDoc = results.length > 0 ? results[0].Key : '';
+      const document = { ...req.body, source_doc: srcDoc };
       // save result info to database
       res.json(await documents.create(document));
     });
